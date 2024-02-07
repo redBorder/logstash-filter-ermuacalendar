@@ -30,7 +30,7 @@ class LogStash::Filters::Virustotal < LogStash::Filters::Base
   def register
     # Add instance variables
     @url = "https://www.virustotal.com/api/v3/files"
-
+    @datos = nil
   end # def register
 
   private
