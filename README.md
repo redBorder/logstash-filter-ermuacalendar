@@ -19,7 +19,7 @@ Need help? Try sending us an email to support@redborder.com
 ### 1. Plugin Developement and Testing
 
 #### Code
-- To get started, you'll need JRuby with the Bundler gem installed:
+- To get started, you'll need JRuby (you need java) with the Bundler gem installed:
 ```sh 
 rvm install jruby-9.2.6.0
 ```
