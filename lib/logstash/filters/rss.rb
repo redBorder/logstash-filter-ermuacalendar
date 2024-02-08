@@ -1,6 +1,5 @@
 require "logstash/filters/base"
 require "logstash/namespace"
-require 'rss'
 
 class LogStash::Filters::RSS < LogStash::Filters::Base
 
@@ -28,14 +27,7 @@ class LogStash::Filters::RSS < LogStash::Filters::Base
 
   def handle_response(response)
     body = response
-    begin
-      feed = RSS::Parser.parse(body)
-      @calendar = feed
-    rescue RSS::MissingTagError => e
-      @logger.error("Invalid RSS feed", :exception => e)
-    rescue => e
-      @logger.error("Unknown error while parsing the feed", :file => @file, :exception => e)
-    end
+    @calendar = body
   end
 
   def read_calendar
@@ -52,13 +44,24 @@ class LogStash::Filters::RSS < LogStash::Filters::Base
     return unless @calendar
 
     date = Time.at(date)
-    @calendar.items.each do |item|
-      pub_date = item.pubDate
-      end_date = pub_date + 1 * 24 * 60 * 60
-      return item.title if date.between?(pub_date, end_date)
+
+    closest_event = nil
+    closest_time_difference = Float::INFINITY
+
+    @calendar.each do |item|
+      pub_date = Time.at(item["field_fecha_inicio"].first["value"])
+      end_date = Time.at(item["field_fecha_fin"].first["value"])
+
+      if date.between?(pub_date, end_date)
+        time_difference = (date - pub_date).abs
+        if time_difference < closest_time_difference
+          closest_event = item["title"].first["value"]
+          closest_time_difference = time_difference
+        end
+      end
     end
 
-    nil
+    closest_event
   end
 
   public
