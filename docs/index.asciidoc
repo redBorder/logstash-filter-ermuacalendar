@@ -14,7 +14,7 @@ END - GENERATED VARIABLES, DO NOT EDIT!
 
 [id="plugins-{type}s-{plugin}"]
 
-== logstash-filter-rss
+== logstash-filter-ermuacalendar
 
 === Example filter plugin
 

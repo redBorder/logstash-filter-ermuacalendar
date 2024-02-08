@@ -1,8 +1,8 @@
 Gem::Specification.new do |s|
-  s.name = 'logstash-filter-rss'
+  s.name = 'logstash-filter-ermuacalendar'
   s.version = '0.0.1'
   s.licenses = ['Apache License (2.0)']
-  s.summary = "plugin to get rss score from files pipeline"
+  s.summary = "plugin to get ermuacalendar items from API"
   s.description = "This gem is a Logstash plugin required to be installed on top of the Logstash core pipeline using $LS_HOME/bin/logstash-plugin install gemname. This gem is not a stand-alone program"
   s.authors = ["redBorder"]
   s.email = 'systems@redborder.com'

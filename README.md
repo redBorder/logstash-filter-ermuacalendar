@@ -6,7 +6,7 @@ This filter is use as part of an internal event process for redBorder platform.
 
 ## Documentation
 
-Add the rss score in your Logstash pipeline.
+Add the ermua calendar item in your Logstash pipeline.
 
 [Take a look at the documentation.](docs/index.asciidoc)
 
@@ -24,7 +24,7 @@ Need help? Try sending us an email to support@redborder.com
 rvm install jruby-9.2.6.0
 ```
 
-- Clone from the GitHub [logstash-filter-rss](https://github.com/redBorder/logstash-filter-rss)
+- Clone from the GitHub [logstash-filter-ermuacalendar](https://github.com/redBorder/logstash-filter-ermuacalendar)
 
 - Install dependencies
 ```sh
@@ -51,7 +51,7 @@ bundle exec rspec
 
 - Build your plugin gem
 ```sh
-gem build logstash-filter-rss.gemspec
+gem build logstash-filter-ermuacalendar.gemspec
 ```
 - Install the plugin from the Logstash home
 ```sh
