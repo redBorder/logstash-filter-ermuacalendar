@@ -1,17 +1,18 @@
 require "logstash/filters/base"
 require "logstash/namespace"
+require "json"
 
 class LogStash::Filters::ErmuaCalendar < LogStash::Filters::Base
 
   config_name "ermuacalendar"
 
-  config :file, :validate => :string, :required => true
+  config :url, :validate => :string, :required => true
   config :calendar_ttl, :validate => :number, :required => true
   config :target, :validate => :string, :default => "calendar_item_name"
 
   public
   def register
-    @logger.info("Registering ERMUA Calendar filter", :file => @file)
+    @logger.info("Registering ERMUA Calendar filter", :url => @url)
     @calendar = nil
 
     Thread.new do
@@ -26,13 +27,13 @@ class LogStash::Filters::ErmuaCalendar < LogStash::Filters::Base
 
   def handle_response(response)
     body = response
-    @calendar = body
+    @calendar = JSON.load(body)
   end
 
   def read_calendar
     begin
       @logger.info "Downloading ERMUA Calendar"
-      response = `curl #{@file}`
+      response = `curl #{@url}`
       handle_response(response) unless response.empty?
     rescue => e
       @logger.error("Error fetching ERMUA Calendar feed", :exception => e)
@@ -46,15 +47,16 @@ class LogStash::Filters::ErmuaCalendar < LogStash::Filters::Base
 
     event = ""
 
-    @calendar.each do |item|
-      pub_date = Time.at(item["field_fecha_inicio"].first["value"])
-      end_date = Time.at(item["field_fecha_fin"].first["value"])
+    @calendar.each_with_index do |item, index|
+      pub_date = Time.at(Time.parse(item["field_fecha_inicio"].first["value"]))
+      end_date = Time.at(Time.parse(item["field_fecha_fin"].first["value"]))
 
       if date.between?(pub_date, end_date)
-        event += item["title"].first["value"].delete(",") + ", "
+        event += item["title"].first["value"].gsub(";","").strip
+        event += "; "
       end
     end
-
+    event = event.sub(/; \z/, '')
     event
   end
 
