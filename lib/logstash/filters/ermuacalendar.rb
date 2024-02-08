@@ -17,7 +17,7 @@ class LogStash::Filters::ErmuaCalendar < LogStash::Filters::Base
     Thread.new do
       loop do
         read_calendar
-        sleep @ermua_calendar
+        sleep @calendar_ttl
       end
     end
   end
