@@ -44,23 +44,18 @@ class LogStash::Filters::ErmuaCalendar < LogStash::Filters::Base
 
     date = Time.at(date)
 
-    closest_event = nil
-    closest_time_difference = Float::INFINITY
+    event = ""
 
     @calendar.each do |item|
       pub_date = Time.at(item["field_fecha_inicio"].first["value"])
       end_date = Time.at(item["field_fecha_fin"].first["value"])
 
       if date.between?(pub_date, end_date)
-        time_difference = (date - pub_date).abs
-        if time_difference < closest_time_difference
-          closest_event = item["title"].first["value"]
-          closest_time_difference = time_difference
-        end
+        event += item["title"].first["value"].delete(",") + ", "
       end
     end
 
-    closest_event
+    event
   end
 
   public
