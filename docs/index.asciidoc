@@ -51,7 +51,7 @@ https://www.virustotal.com/
   * Default value is `""`
 
 
-[id="plugins-{type}s-{plugin}-file_field"]
+[id="plugins-{type}s-{plugin}-calendar_ttl"]
 ===== `calendar_ttl`
 
 * Value type is `Number`.
