@@ -1,0 +1,68 @@
+:plugin: example
+:type: filter
+
+///////////////////////////////////////////
+START - GENERATED VARIABLES, DO NOT EDIT!
+///////////////////////////////////////////
+:version: %VERSION%
+:release_date: %RELEASE_DATE%
+:changelog_url: %CHANGELOG_URL%
+:include_path: ../../../../logstash/docs/include
+///////////////////////////////////////////
+END - GENERATED VARIABLES, DO NOT EDIT!
+///////////////////////////////////////////
+
+[id="plugins-{type}s-{plugin}"]
+
+== logstash-filter-ermuacalendar
+
+=== Example filter plugin
+
+[,logstash]
+----
+filter{
+  ermuacalendar {
+    url => 'https://www.ermua.eus/es/exportacion-datos-abiertos/json?type=evento'
+    calendar_ttl => 3600
+  }
+}
+----
+
+=== Description
+
+This is an example of a Logstash filter plugin for Ermuacalendar. This filter enriches location events with events that occurred on the range of days.
+https://www.virustotal.com/
+
+[id="plugins-{type}s-{plugin}-options"]
+==== Filter Configuration Options
+
+[cols="<,<,<",options="header",]
+|====================================================================================
+|               Setting                                     |   Input type  |Required
+| <<plugins-{type}s-{plugin}-url>>                          |String         |Yes
+| <<plugins-{type}s-{plugin}-calendar_ttl>>                 |Number         |Yes
+| <<plugins-{type}s-{plugin}-target>>                       |String         |No
+|====================================================================================
+
+[id="plugins-{type}s-{plugin}-url"]
+===== `url`
+
+  * Value type is `String`.
+  * Default value is `""`
+
+
+[id="plugins-{type}s-{plugin}-file_field"]
+===== `calendar_ttl`
+
+* Value type is `Number`.
+* Default value is `""`
+
+Calendar refresh time
+
+[id="plugins-{type}s-{plugin}-target"]
+===== `target`
+
+* Value type is `String`.
+* Default value is `"calendar_item_name"`
+
+Logstash event field (key) of the event name
