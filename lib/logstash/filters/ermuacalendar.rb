@@ -35,9 +35,27 @@ class LogStash::Filters::ErmuaCalendar < LogStash::Filters::Base
       @logger.info "Downloading ERMUA Calendar"
       response = `curl #{@url}`
       handle_response(response) unless response.empty?
+      filter_calendar
     rescue => e
       @logger.error("Error fetching ERMUA Calendar feed", :exception => e)
     end
+  end
+
+  def filter_calendar
+    return unless @calendar
+
+    date = Time.now
+    sorted_calendar = []
+
+    @calendar.each do |item|
+      start_date = Time.at(Time.parse(item["field_fecha_inicio"].first["value"]))
+      end_date = Time.at(Time.parse(item["field_fecha_fin"].first["value"]))
+      if date >= start_date && date <= end_date
+        sorted_calendar.push(item)
+      end
+    end
+
+    @calendar = sorted_calendar
   end
 
   def event_name_by_date(date)
